@@ -7,23 +7,32 @@ const scroll = new LocomotiveScroll({
 
 
 function page4Animation() {
-    var elemC = document.querySelector("#elem-container")
-    var fixed = document.querySelector("#fixed-image")
-    elemC.addEventListener("mouseenter", function () {
-        fixed.style.display = "block"
-    })
-    elemC.addEventListener("mouseleave", function () {
-        fixed.style.display = "none"
-    })
+  var elemC = document.querySelector("#elem-container");
+  var fixed = document.querySelector("#fixed-image");
 
-    var elems = document.querySelectorAll(".elem")
-    elems.forEach(function (e) {
-        e.addEventListener("mouseenter", function () {
-            var image = e.getAttribute("data-image")
-            fixed.style.backgroundImage = `url(${image})`
-        })
-    })
+  elemC.addEventListener("mouseenter", function () {
+      fixed.style.display = "block";
+  });
+
+  elemC.addEventListener("mouseleave", function () {
+      fixed.style.display = "none";
+  });
+
+  var elems = document.querySelectorAll(".elem");
+  elems.forEach(function (e) {
+      e.addEventListener("mouseenter", function () {
+          var image = e.getAttribute("data-image");
+          fixed.style.backgroundImage = `url(${image})`;
+      });
+
+      e.addEventListener("touchstart", function () {
+          var image = e.getAttribute("data-image");
+          fixed.style.backgroundImage = `url(${image})`;
+          fixed.style.display = "block"; // Assuming you want to show the fixed element on touchstart
+      });
+  });
 }
+
 
 function swiperAnimation() {
     var swiper = new Swiper(".mySwiper", {
@@ -58,28 +67,45 @@ function loaderAnimation() {
     }, 4200)
 }
 
-  // Get the video element
+// Get the video element
 let video = document.getElementById("myVideo");
+let muteButton = document.getElementById("muteButton");
 
-  // Function to handle video load
-  function handleVideoLoad() {
-    // Intersection Observer to check if more than 50% of the video is in the viewport
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.intersectionRatio > 0.5) {
-          // More than 50% of the video is in the viewport
-          video.currentTime = 0; // Restart the video
-          video.play();
-        } else {
-          // Less than 50% of the video is in the viewport
-          video.pause();
-        }
-      });
-    }, { threshold: 0.5 });
+// Function to handle video load and touchstart
+function handleVideoLoad() {
+  // Intersection Observer to check if more than 50% of the video is in the viewport
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.intersectionRatio > 0.5) {
+        // More than 50% of the video is in the viewport
+        video.currentTime = 0; // Restart the video
+        video.play();
+      } else {
+        // Less than 50% of the video is in the viewport
+        video.pause();
+      }
+    });
+  }, { threshold: 0.5 });
 
-    // Attach the observer to the video
-    observer.observe(video);
-  }
+  // Attach the observer to the video
+  observer.observe(video);
+
+  // Add an event listener for touchstart on touchscreen devices
+  video.addEventListener('touchstart', function () {
+    video.currentTime = 0;
+    video.play();
+  });
+}
+
+// Function to toggle mute/unmute
+function toggleMute() {
+  video.muted = !video.muted;
+  muteButton.textContent = video.muted ? 'Unmute the video shown below' : 'Mute the video shown below';
+}
+
+// Call handleVideoLoad when the document is fully loaded
+document.addEventListener('DOMContentLoaded', handleVideoLoad);
+
 
 
 

@@ -676,5 +676,22 @@ nav h3 {
     }
 }
 
+#muteButton {
+    position: absolute;
+    bottom: 840px;
+    left: 700px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Style for the button on hover */
+  #muteButton:hover {
+    background-color: #555;
+  }
+
 
 
